@@ -11,24 +11,31 @@ public class ThirdPersonMovement : MonoBehaviour
     float turnSmoothVelocity;
     public Animator animator;
     public float groundRayDistance = 1.0f; // Adjust this value based on your character's size
-    public float fallSpeed = 10.0f;
-    public float walkfallspeed = 11.5f;// Adjust the fall speed as needed
-    public GameObject GroundCheck;
-    public bool isGrounded; // Flag to store whether the player is on the ground
+
+    // Gravity variables
+    public float gravity = -9.81f;
+    Vector3 velocity;
+    bool isGrounded;
+    public float fallspeed=10f;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-    // Update is called once per frame
+
     void Update()
     {
-        isGrounded = Physics.Raycast(GroundCheck.transform.position, Vector3.down, groundRayDistance);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundRayDistance);
 
-        // If not grounded, move the player downward
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // Reset the vertical velocity when grounded
+        }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -37,21 +44,18 @@ public class ThirdPersonMovement : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
-            if (!isGrounded)
-            {
-                Vector3 fallVector = Vector3.down * walkfallspeed * Time.deltaTime;
-                transform.position += fallVector;
-            }
+            velocity.y += gravity * Time.deltaTime * fallspeed * 10;
+            controller.Move(velocity * Time.deltaTime);
             animator.SetBool("Run", true);
         }
         else
         {
-            if (!isGrounded)
-            {
-                Vector3 fallVector = Vector3.down * fallSpeed * Time.deltaTime;
-                transform.position += fallVector;
-            }
+            velocity.y += gravity * Time.deltaTime * fallspeed;
+            controller.Move(velocity * Time.deltaTime);
             animator.SetBool("Run", false);
         }
+
+        // Apply gravity
+        
     }
 }
