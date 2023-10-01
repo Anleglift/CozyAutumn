@@ -12,17 +12,21 @@ public class pickupScript : MonoBehaviour
     public Transform handPos;
     public GameObject childObj;
     public CapsuleCollider colider;
+    public float throwForce;
+    public float throwHeight;
+    private Rigidbody rb;
+    public float delayTime;
 
-    void getFox()
-    {
-        Transform getHand = character.transform.Find("RightHand");
-        Debug.Log(getHand.position);
-    }
     void Start()
     {
-
+        rb = fox.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
     }
 
+    void Delay()
+    {
+        rb.isKinematic = true;
+    }
 
     void Update()
     {
@@ -35,18 +39,28 @@ public class pickupScript : MonoBehaviour
                 navObstacle.enabled = false;
                 childObj.transform.SetParent(handPos);
                 colider.enabled = false;
+                rb.isKinematic = true;
             }
             else
             {
                 isHeld = false;
                 navObstacle.enabled = true;
                 childObj.transform.SetParent(null);
+                colider.enabled = true;
+                rb.isKinematic = false;
             }
-
-            
         }
 
-
-
+        if (isHeld && Input.GetMouseButtonDown(0))
+        {
+            isHeld = false;
+            navObstacle.enabled = true;
+            childObj.transform.SetParent(null);
+            colider.enabled = true;
+            rb.isKinematic = false;
+            Vector3 throwDirection = character.transform.forward + Vector3.up * throwHeight;
+            rb.velocity = throwDirection * throwForce;
+            Invoke("Delay", delayTime);
+        }
     }
 }
