@@ -13,6 +13,7 @@ public class NewBehaviourScript : MonoBehaviour
     void Start()
     {
         FoxOnPlayer.SetActive(false);
+        FoxOnGround.SetActive(true);
     }
     void Update()
     {
@@ -30,13 +31,13 @@ public class NewBehaviourScript : MonoBehaviour
             Ok = false;
             if (PickedUp == false)
             {
-                FoxOnGround.gameObject.SetActive(false);
+                FoxOnGround.SetActive(false);
                 FoxOnPlayer.SetActive(true);
                 PickedUp = true;
             }
             else
             {
-                FoxOnGround.gameObject.SetActive(true);
+                FoxOnGround.SetActive(true);
                 FoxOnPlayer.SetActive(false);
                 PickedUp = false;
             }

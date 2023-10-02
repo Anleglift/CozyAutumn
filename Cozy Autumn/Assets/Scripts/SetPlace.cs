@@ -27,7 +27,7 @@ public class CharacterMovement : MonoBehaviour
         {
             ///Debug.Log(FoundPosition);
             navMeshAgent.SetDestination(worldPosition);
-            if (Vector3.Distance(transform.position, worldPosition) < 2f)
+            if (Vector3.Distance(transform.position, worldPosition) < 1f)
                 moveTowardsCursor = false;
         }
     }
