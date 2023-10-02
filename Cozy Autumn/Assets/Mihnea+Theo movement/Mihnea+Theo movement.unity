@@ -3001,7 +3001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405187845}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.052438166, y: -0.000000017711526, z: 9.3003955e-10, w: 0.9986242}
+  m_LocalRotation: {x: 0.052438166, y: 0.000000017711534, z: -9.3003993e-10, w: 0.9986242}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3415,7 +3415,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556820675}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.052438166, y: -0.00000003463285, z: 0.0000000018185852, w: 0.9986242}
+  m_LocalRotation: {x: 0.052438166, y: 0.000000034632855, z: -0.0000000018185855, w: 0.9986242}
   m_LocalPosition: {x: -35.33, y: 9.57, z: -22.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4773,6 +4773,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FoxOnPlayer: {fileID: 1863434754}
+  FoxOnGround: {fileID: 1501257234}
+  waitTime: 2
+  timer: 0
+  PickedUp: 0
+  Ok: 0
 --- !u!1001 &2111422476
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class CharacterMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
     private bool moveTowardsCursor = false;
-    private bool FoundPosition = false;
     public Vector3 worldPosition;
     public NavMeshAgent navMeshAgent;
 
@@ -24,11 +23,12 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
-        if (FoundPosition == true)
+        if (moveTowardsCursor == true)
         {
+            ///Debug.Log(FoundPosition);
             navMeshAgent.SetDestination(worldPosition);
-            if (Vector3.Distance(transform.position, worldPosition) < 0.1f)
-                FoundPosition = false;
+            if (Vector3.Distance(transform.position, worldPosition) < 2f)
+                moveTowardsCursor = false;
         }
     }
 
@@ -40,8 +40,6 @@ public class CharacterMovement : MonoBehaviour
         {
             // Assign the cursor position to the class-level worldPosition variable
             worldPosition = hit.point;
-
-            FoundPosition = true;
         }
     }
 }
