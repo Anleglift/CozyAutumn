@@ -5,9 +5,14 @@ using UnityEngine.AI;
 
 public class pickupScript : MonoBehaviour
 {
+    [Header("setari")]
+    public float throwForce;
+    public float delayTime = 1f;
+
+
+    [Header("celelalte")]
     public GameObject fox;
     public GameObject character;
-    private bool isHeld = false;
     public NavMeshAgent navObstacle;
     public Transform handPos;
     public GameObject childObj;
@@ -16,23 +21,19 @@ public class pickupScript : MonoBehaviour
     public float throwHeight;
     private Rigidbody rb;
     public float delayTime;
-
+    private bool isHeld = false;
+    private bool isHeldCol = false;
+    private Rigidbody rb;
     void Start()
     {
         rb = fox.GetComponent<Rigidbody>();
         rb.isKinematic = true;
     }
-
-    void Delay()
-    {
-        rb.isKinematic = true;
-    }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isHeld)
+            if (!isHeld && isHeldCol == true)
             {
                 isHeld = true;
                 fox.transform.position = character.transform.Find("RightHand").position;
@@ -46,11 +47,9 @@ public class pickupScript : MonoBehaviour
                 isHeld = false;
                 navObstacle.enabled = true;
                 childObj.transform.SetParent(null);
-                colider.enabled = true;
                 rb.isKinematic = false;
             }
         }
-
         if (isHeld && Input.GetMouseButtonDown(0))
         {
             isHeld = false;
@@ -58,9 +57,28 @@ public class pickupScript : MonoBehaviour
             childObj.transform.SetParent(null);
             colider.enabled = true;
             rb.isKinematic = false;
-            Vector3 throwDirection = character.transform.forward + Vector3.up * throwHeight;
+            Vector3 throwDirection = character.transform.forward;
             rb.velocity = throwDirection * throwForce;
             Invoke("Delay", delayTime);
         }
     }
+    void Delay()
+    {
+        rb.isKinematic = true;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "fox")
+        {
+            isHeldCol = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "fox")
+        {
+            isHeldCol = false;
+        }
+    }
+
 }
