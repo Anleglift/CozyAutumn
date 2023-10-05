@@ -17,11 +17,13 @@ public class pickupScript : MonoBehaviour
     public Transform handPos;
     public GameObject childObj;
     public CapsuleCollider colider;
-
+    public float throwForce;
+    public float throwHeight;
+    private Rigidbody rb;
+    public float delayTime;
     private bool isHeld = false;
     private bool isHeldCol = false;
     private Rigidbody rb;
-
     void Start()
     {
         rb = fox.GetComponent<Rigidbody>();
