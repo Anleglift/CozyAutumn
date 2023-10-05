@@ -55,6 +55,7 @@ public class pickupScript : MonoBehaviour
                 agent.enabled = false;
                 carriedObject.transform.SetParent(Hand);
                 carriedObject.transform.position = Hand.transform.position;
+                carriedObject.transform.rotation = Hand.transform.rotation;
                 initialCarryPosition = carriedObject.transform.position;
             }
         }

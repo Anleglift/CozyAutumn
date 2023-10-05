@@ -34,7 +34,6 @@ public class FoxFollow : MonoBehaviour
                     // Set the destination of the NavMeshAgent to the player's position
                     navMeshAgent.SetDestination(player.position);
                 }
-
                 if (ThirdPersonMovement.direction.magnitude > 0.1f)
                 {
                     sit = false;
@@ -90,6 +89,10 @@ public class FoxFollow : MonoBehaviour
                     animator.SetBool("Run", true);
                 }
             }
+        }
+        else
+        {
+            animator.SetBool("Jump", true);
         }
     }
 }
