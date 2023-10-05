@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class CharacterMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
-    private bool moveTowardsCursor = false;
+    public bool moveTowardsCursor = false;
     public Vector3 worldPosition;
     public NavMeshAgent navMeshAgent;
 

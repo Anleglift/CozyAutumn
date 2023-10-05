@@ -510,6 +510,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   animator: {fileID: 177175760}
   groundRayDistance: 1
+  direction: {x: 0, y: 0, z: 0}
   gravity: -9.81
   fallspeed: 10
 --- !u!143 &238788703
@@ -568,14 +569,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111dc0b53b72ed245af81a98ea47052e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 15
-  delayTime: 1
-  fox: {fileID: 909692252}
-  character: {fileID: 1710904209}
-  navObstacle: {fileID: 909692253}
-  handPos: {fileID: 497386795}
-  childObj: {fileID: 909692252}
-  colider: {fileID: 915228573}
+  throwDestination: {fileID: 1027833384}
+  throwHeight: 5
+  agent: {fileID: 909692253}
+  Hand: {fileID: 1244539911}
+  FoxPlace: {fileID: 1893152388}
+  FoxFollow: {fileID: 909692254}
+  CanThrow: 1
 --- !u!65 &238788706
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1172,11 +1172,6 @@ Transform:
   - {fileID: 1635335335}
   m_Father: {fileID: 1439250356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &497386795 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4372587343206045713, guid: 81bb9eea30387e442899949a80011e55, type: 3}
-  m_PrefabInstance: {fileID: 1629429854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &909692252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1227,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1893152388}
+  animator: {fileID: 177175760}
+  ThirdPersonMovement: {fileID: 238788702}
+  timeThreshold: 5
+  sit: 0
+  satdown: 0
+  IsHeld: 0
 --- !u!4 &909692255
 Transform:
   m_ObjectHideFlags: 0
@@ -1477,6 +1478,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745745fbbfe21424189ced56b7047069, type: 3}
+--- !u!4 &1027833384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8879528566716807029, guid: 81bb9eea30387e442899949a80011e55, type: 3}
+  m_PrefabInstance: {fileID: 1629429854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1177493551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,6 +1588,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177493551}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1244539911 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6264078077167117473, guid: 81bb9eea30387e442899949a80011e55, type: 3}
+  m_PrefabInstance: {fileID: 1629429854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1331210663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2201,11 +2212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1710904209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1730877080652602614, guid: 81bb9eea30387e442899949a80011e55, type: 3}
-  m_PrefabInstance: {fileID: 1629429854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1810271487
 GameObject:
   m_ObjectHideFlags: 0

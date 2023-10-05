@@ -16,6 +16,7 @@ public class FoxFollow : MonoBehaviour
     public bool sit = false;
     public bool satdown = false;
     public bool IsHeld = false;
+    public CharacterMovement CharacterMovement;
     private void Start()
     {
         startTime = Time.time;
@@ -26,49 +27,68 @@ public class FoxFollow : MonoBehaviour
         if (!IsHeld)
         {
             float distance = Vector3.Distance(transform.position, player.position);
-            if (player != null)
+            if (CharacterMovement.moveTowardsCursor == false)
             {
-                // Set the destination of the NavMeshAgent to the player's position
-                navMeshAgent.SetDestination(player.position);
-            }
-            if (ThirdPersonMovement.direction.magnitude > 0.1f)
-            {
-                sit = false;
-                startTime = Time.time; // Reset the timer if the boolean becomes true
-                if (satdown)
+                if (player != null)
                 {
-                    animator.SetBool("Stand_Up", true);
-                    animator.SetBool("Run", true);
-                    satdown = false;
-                    animator.SetBool("Sit", false);
+                    // Set the destination of the NavMeshAgent to the player's position
+                    navMeshAgent.SetDestination(player.position);
+                }
+
+                if (ThirdPersonMovement.direction.magnitude > 0.1f)
+                {
+                    sit = false;
+                    startTime = Time.time; // Reset the timer if the boolean becomes true
+                    if (satdown)
+                    {
+                        animator.SetBool("Stand_Up", true);
+                        animator.SetBool("Run", true);
+                        satdown = false;
+                        animator.SetBool("Sit", false);
+                    }
+                    else
+                    {
+                        animator.SetBool("Run", true);
+                    }
+
                 }
                 else
                 {
                     animator.SetBool("Run", true);
-                }
-
-            }
-            else
-            {
-                animator.SetBool("Run", true);
-                if (distance <= 0.5f)
-                {
                     animator.SetBool("Stand_Up", false);
-                    Debug.Log("In Position");
-                    animator.SetBool("Run", false);
-                    sit = true;
-                    if (sit)
+                    if (distance <= 0.5f)
                     {
-                        float elapsedTime = Time.time - startTime;
-                        Debug.Log(elapsedTime);
-                        if (elapsedTime >= timeThreshold)
+                        animator.SetBool("Stand_Up", false);
+                        Debug.Log("In Position");
+                        animator.SetBool("Run", false);
+                        sit = true;
+                        if (sit)
                         {
-                            animator.SetBool("Sit", true);
-                            satdown = true;
+                            float elapsedTime = Time.time - startTime;
+                            Debug.Log(elapsedTime);
+                            if (elapsedTime >= timeThreshold)
+                            {
+                                animator.SetBool("Sit", true);
+                                satdown = true;
+                            }
                         }
                     }
-                }
 
+                }
+            }else
+            {
+                float distance2 = Vector3.Distance(transform.position, CharacterMovement.worldPosition);
+                if (distance2 <= 1f)
+                {
+                    Debug.Log("close");
+                    animator.SetBool("Run", false);
+                }
+                else
+                {
+                    animator.SetBool("Stand_Up", true);
+                    animator.SetBool("Sit", false);
+                    animator.SetBool("Run", true);
+                }
             }
         }
     }
