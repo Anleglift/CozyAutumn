@@ -11,7 +11,7 @@ public class ThirdPersonMovement : MonoBehaviour
     float turnSmoothVelocity;
     public Animator animator;
     public float groundRayDistance = 1.0f; // Adjust this value based on your character's size
-
+    public Vector3 direction;
     // Gravity variables
     public float gravity = -9.81f;
     Vector3 velocity;
@@ -34,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         if (direction.magnitude >= 0.1f)
         {
