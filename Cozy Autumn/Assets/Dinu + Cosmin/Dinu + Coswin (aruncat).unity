@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117098626}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09694065, y: -0.0000000042813353, z: 4.169994e-10, w: 0.99529016}
+  m_LocalRotation: {x: 0.09694065, y: 0.000000004281336, z: -4.169995e-10, w: 0.99529016}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -510,6 +510,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   animator: {fileID: 177175760}
   groundRayDistance: 1
+  direction: {x: 0, y: 0, z: 0}
   gravity: -9.81
   fallspeed: 10
 --- !u!143 &238788703
@@ -554,6 +555,7 @@ Transform:
   - {fileID: 177175761}
   - {fileID: 1331210664}
   - {fileID: 1893152388}
+  - {fileID: 474096931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &238788705
@@ -568,14 +570,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111dc0b53b72ed245af81a98ea47052e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 15
-  delayTime: 1
-  fox: {fileID: 909692252}
-  character: {fileID: 1710904209}
-  navObstacle: {fileID: 909692253}
-  handPos: {fileID: 497386795}
-  childObj: {fileID: 909692252}
-  colider: {fileID: 915228573}
+  throwDestination: {fileID: 474096931}
+  throwHeight: 5
+  agent: {fileID: 909692253}
+  Hand: {fileID: 497386795}
+  FoxPlace: {fileID: 1893152388}
+  FoxFollow: {fileID: 909692254}
+  CanThrow: 1
 --- !u!65 &238788706
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -763,7 +764,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372645672}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09694066, y: -0.000000008562672, z: 8.339989e-10, w: 0.9952902}
+  m_LocalRotation: {x: 0.09694066, y: 0.000000008562672, z: -8.339989e-10, w: 0.9952902}
   m_LocalPosition: {x: 0, y: 5.25, z: -21.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1093,6 +1094,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &474096930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 474096931}
+  m_Layer: 0
+  m_Name: ThrowDestination
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &474096931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474096930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 238788704}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &494884069
 GameObject:
   m_ObjectHideFlags: 3
@@ -1325,7 +1357,6 @@ GameObject:
   - component: {fileID: 909692254}
   - component: {fileID: 909692253}
   - component: {fileID: 909692257}
-  - component: {fileID: 909692256}
   m_Layer: 0
   m_Name: Fox
   m_TagString: fox
@@ -1368,6 +1399,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1893152388}
+  animator: {fileID: 177175760}
+  ThirdPersonMovement: {fileID: 238788702}
+  timeThreshold: 5
+  sit: 0
+  satdown: 0
+  IsHeld: 0
 --- !u!4 &909692255
 Transform:
   m_ObjectHideFlags: 0
@@ -1384,33 +1421,6 @@ Transform:
   - {fileID: 915228572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &909692256
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909692252}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &909692257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2337,11 +2347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1710904209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1730877080652602614, guid: 81bb9eea30387e442899949a80011e55, type: 3}
-  m_PrefabInstance: {fileID: 1629429854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1810271487
 GameObject:
   m_ObjectHideFlags: 0

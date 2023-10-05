@@ -5,80 +5,96 @@ using UnityEngine.AI;
 
 public class pickupScript : MonoBehaviour
 {
-    [Header("setari")]
-    public float throwForce;
-    public float delayTime = 1f;
-
-
-    [Header("celelalte")]
-    public GameObject fox;
-    public GameObject character;
-    public NavMeshAgent navObstacle;
-    public Transform handPos;
-    public GameObject childObj;
-    public CapsuleCollider colider;
-    public float throwForce;
-    public float throwHeight;
-    private Rigidbody rb;
-    public float delayTime;
-    private bool isHeld = false;
-    private bool isHeldCol = false;
-    private Rigidbody rb;
-    void Start()
-    {
-        rb = fox.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-    }
+    public Transform throwDestination;
+    public float throwHeight = 5f; // Adjust this for the desired arc height
+    private GameObject carriedObject;
+    public NavMeshAgent agent;
+    public Transform Hand;
+    public Transform FoxPlace;
+    public FoxFollow FoxFollow;
+    private Vector3 initialCarryPosition;
+    private Vector3 throwStartPosition;
+    private float throwStartTime;
+    private float throwDuration = 1.0f; // Adjust this for the desired throw duration
+    public bool CanThrow = true;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (CanThrow)
         {
-            if (!isHeld && isHeldCol == true)
+            // Check for 'E' key press to pick up or throw
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                isHeld = true;
-                fox.transform.position = character.transform.Find("RightHand").position;
-                navObstacle.enabled = false;
-                childObj.transform.SetParent(handPos);
-                colider.enabled = false;
-                rb.isKinematic = true;
+                if (carriedObject == null)
+                {
+
+                    // Attempt to pick up an object within reach
+                    TryPickupObject();
+                }
+                else
+                {
+                    // Throw the carried object
+                    ThrowCarriedObject();
+                }
             }
-            else
-            {
-                isHeld = false;
-                navObstacle.enabled = true;
-                childObj.transform.SetParent(null);
-                rb.isKinematic = false;
-            }
-        }
-        if (isHeld && Input.GetMouseButtonDown(0))
-        {
-            isHeld = false;
-            navObstacle.enabled = true;
-            childObj.transform.SetParent(null);
-            colider.enabled = true;
-            rb.isKinematic = false;
-            Vector3 throwDirection = character.transform.forward;
-            rb.velocity = throwDirection * throwForce;
-            Invoke("Delay", delayTime);
-        }
-    }
-    void Delay()
-    {
-        rb.isKinematic = true;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "fox")
-        {
-            isHeldCol = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "fox")
-        {
-            isHeldCol = false;
         }
     }
 
+    void TryPickupObject()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, FoxPlace.position - transform.position, out hit, 5f))
+        {
+            // Check if the hit object has a NavMeshAgent
+            NavMeshAgent hitAgent = hit.collider.GetComponent<NavMeshAgent>();
+            Debug.Log(hit.transform.position);
+            if (hitAgent != null)
+            {
+
+                FoxFollow.IsHeld = true;
+                carriedObject = hit.collider.gameObject;
+                agent.enabled = false;
+                carriedObject.transform.SetParent(Hand);
+                carriedObject.transform.position = Hand.transform.position;
+                initialCarryPosition = carriedObject.transform.position;
+            }
+        }
+    }
+
+    void ThrowCarriedObject()
+    {
+        if (carriedObject != null)
+        {
+            agent.enabled = true;
+            carriedObject.transform.SetParent(null);
+
+            throwStartTime = Time.time;
+            throwStartPosition = carriedObject.transform.position;
+
+            // Calculate the throw direction
+            Vector3 throwDirection = (throwDestination.position - transform.position).normalized;
+
+            StartCoroutine(PerformThrow(throwDirection));
+        }
+    }
+
+    IEnumerator PerformThrow(Vector3 throwDirection)
+    {
+        CanThrow = false;
+        float elapsedTime = 0f;
+        while (elapsedTime < throwDuration)
+        {
+            float normalizedTime = elapsedTime / throwDuration;
+            float height = Mathf.Sin(normalizedTime * Mathf.PI) * throwHeight;
+
+            Vector3 newPosition = Vector3.Lerp(throwStartPosition, throwStartPosition + (throwDirection * 10f), normalizedTime);
+            newPosition.y += height;
+            carriedObject.transform.position = newPosition;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        FoxFollow.IsHeld = false;
+        carriedObject = null; // Object is no longer carried
+        CanThrow = true;
+    }
 }
