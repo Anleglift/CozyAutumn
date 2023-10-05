@@ -925,6 +925,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   animator: {fileID: 809233539}
   groundRayDistance: 1
+  direction: {x: 0, y: 0, z: 0}
   gravity: -9.81
   fallspeed: 10
 --- !u!208 &373593194
@@ -2698,7 +2699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171675119}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.008038511, y: 0.000000017281268, z: -1.3892015e-10, w: 0.9999677}
+  m_LocalRotation: {x: 0.008038511, y: -0.000000017281272, z: 1.3892018e-10, w: 0.9999677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4708,6 +4709,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1122512629}
+  animator: {fileID: 809233539}
+  ThirdPersonMovement: {fileID: 373593193}
+  timeThreshold: 5
+  sit: 0
+  satdown: 0
+  IsHeld: 0
 --- !u!4 &2000914269
 Transform:
   m_ObjectHideFlags: 0
@@ -4774,10 +4781,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FoxOnPlayer: {fileID: 1863434754}
   FoxOnGround: {fileID: 1501257234}
+  Player: {fileID: 0}
+  Fox: {fileID: 0}
   waitTime: 2
   timer: 0
   PickedUp: 0
   Ok: 0
+  interact: 0
 --- !u!1001 &2111422476
 PrefabInstance:
   m_ObjectHideFlags: 0

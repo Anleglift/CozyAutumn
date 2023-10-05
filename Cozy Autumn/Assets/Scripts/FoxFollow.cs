@@ -24,16 +24,7 @@ public class FoxFollow : MonoBehaviour
     private void Update()
     {
         if (!IsHeld)
-
         {
-            if (Input.GetKeyDown(KeyCode.T)) // Change this to the desired key or button
-        {
-            if (moveTowardsCursor == true)
-                moveTowardsCursor = false;
-            else
-                moveTowardsCursor = true;
-        }
-        if (player != null && moveTowardsCursor == false)
             float distance = Vector3.Distance(transform.position, player.position);
             if (player != null)
             {
