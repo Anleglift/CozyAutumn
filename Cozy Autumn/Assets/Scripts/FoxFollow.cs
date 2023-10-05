@@ -8,6 +8,7 @@ public class FoxFollow : MonoBehaviour
 {
     public Transform player;
     private NavMeshAgent navMeshAgent;
+    private bool moveTowardsCursor = false;
     public Animator animator;
     public ThirdPersonMovement ThirdPersonMovement;
     public float timeThreshold = 5.0f; // Adjust this to the desired threshold in seconds
@@ -20,11 +21,19 @@ public class FoxFollow : MonoBehaviour
         startTime = Time.time;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
-
     private void Update()
     {
         if (!IsHeld)
+
         {
+            if (Input.GetKeyDown(KeyCode.T)) // Change this to the desired key or button
+        {
+            if (moveTowardsCursor == true)
+                moveTowardsCursor = false;
+            else
+                moveTowardsCursor = true;
+        }
+        if (player != null && moveTowardsCursor == false)
             float distance = Vector3.Distance(transform.position, player.position);
             if (player != null)
             {
