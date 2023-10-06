@@ -92,7 +92,7 @@ public class FoxFollow : MonoBehaviour
         }
         else
         {
-            animator.SetBool("Jump", true);
+         
         }
     }
 }
